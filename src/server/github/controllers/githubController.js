@@ -14,7 +14,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 githubController.redirect = (req, res, next) => {
   const baseURL = 'https://github.com/login/oauth/authorize';
-
+  console.log(CLIENT_ID)
   res.redirect(`${baseURL}?client_id=${CLIENT_ID}`);
 };
 
