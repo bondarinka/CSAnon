@@ -5,9 +5,13 @@ moment().format();
 
 module.exports = (http) => {
   const io = require('socket.io')(http);
+  
+  let userCount = 0
+  let userList = []
 
   io.on('connect', (socket) => {
     console.log('a user connected');
+
 
     socket.on('message', async ({ message, username }) => {
       const { user_id, userURL } = await getIDAndPictureByUsername(username);
@@ -27,23 +31,58 @@ module.exports = (http) => {
     });
 
     socket.on('signin', ({ username }) => {
+      userCount++
+      console.log(userCount)
+      io.emit('count', userCount)
+
+      userList.push(username)
+      io.emit('userlist', userList)
       // assigns the anon username to the socketID
       redis.set(socket.id.toString(), username);
+      // console.log(socket.id.toString(),'socketid',username2,'username')
+      
       // claims the anon username as in-use
       redis.set(username, 'true');
+
+      redis.get(username, (data) => {
+        console.log(data)
+      })
+
+      redis.keys('*', (err, data) => {
+        console.log(data.length, data)
+        socket.emit('data', data)
+      })
+
     });
 
     socket.on('disconnect', () => {
-      console.log('a user disconnected');
-
+      
+     
+    
       // retrieves the username attached to the socketID on disconnect
       redis.get(socket.id.toString(), (err, username) => {
         if (err) return console.error(err);
+        console.log(username,'testing')
         console.log(username, 'disconnected');
+       
         if (!username) return;
         //frees the username and socketID from the in-use storage
+    
+
         redis.del(socket.id.toString());
         redis.del(username);
+
+        userCount--
+        io.emit('count', userCount)
+        userList = userList.filter((user) => {
+          console.log(user, username)
+          return user !== username
+        })
+        redis.keys('*', (err, data) => {
+          console.log(data.length, data)
+        })
+        console.log(userList)
+        io.emit('userlist', userList)
       });
     });
   });
