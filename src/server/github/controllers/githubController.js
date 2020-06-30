@@ -51,15 +51,20 @@ githubController.approveUser = async (req, res, next) => {
   const githubHandle = res.locals.login;
   checkMembership(githubHandle, res.locals.access_token)
     .then((res) => {
-      console.log("approveUser res body", res.body);
       // should give 204 status in response
       // if yes - good to go, allowed to access chat (member of the organization)
       console.log(res.status);
+      if (res.status === 204) {
+        res.locals.user = githubHandle;
+        return next();
+      }
+      else res.redirect('/signin');
     })
     .catch((err) => {
-      console.log(err.status);
-      console.log(err.message);
-      return next(err);
+      res.redirect('/signin');
+      //console.log(err.status);
+      //console.log(err.message);
+      //return next(err);
     });
 
   // get all rows of the hash table
@@ -83,8 +88,6 @@ githubController.approveUser = async (req, res, next) => {
   //     next();
   //   })
   //   .catch((err) => next(err));
-  res.locals.user = githubHandle;
-  next();
 };
 
 githubController.createJWT = async (req, res, next) => {
