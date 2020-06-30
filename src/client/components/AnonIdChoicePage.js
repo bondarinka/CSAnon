@@ -31,11 +31,21 @@ export default function AnonIdChoicePage() {
     socket.emit("signin", { username: anonId.username });
   };
 
+  const getNewIdBecauseError = () => {
+    //this separate request is to prevent the backend from saving an anonId cookie
+    //until an ID with a non-broken image is found
+    let rt = '/id/true';
+    fetch(rt)
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        setIsLoading(false);
+        setAnonId(result);
+      });
+  }
+
   const getNewId = () => {
-    let rt = '/id';
-    // console.log(req.session.username);
-    // if (req.session.username) rt += '/pick';
-    // fetch('/id')
+    let rt = '/id/false';
     fetch(rt)
       .then(res => res.json())
       .then(result => {
@@ -52,16 +62,14 @@ export default function AnonIdChoicePage() {
 
   return (
     <div className="mainContainer anonChoice">
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
+      {isLoading ? <p>Loading...</p> : (
         <>
           {/* TODO: add log out functionality */}
           {/*<button>Log out of GitHub</button>*/}
-          <img src={anonId.userURL} onError={handleRerollClick} />
+          <img src={anonId.userURL} onError={getNewIdBecauseError} />
           <p className="name">{anonId.username}</p>
           <div className="row">
-            <button onClick={handleRerollClick}>Rerolllllll new ID</button>
+            <button onClick={handleRerollClick}>Rerolllll new ID</button>
             <Link
               className="btn"
               to={{ pathname: "/chat", state: anonId }}
@@ -84,7 +92,7 @@ userID = {
   username: String,
   userURL: String,
 }
- 
+
 **keep username in session storage**
 
 on go to chat, submit username to '/id/pick/' (will register in redis)

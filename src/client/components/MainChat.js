@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useLayoutEffect } from 'react';
 import SocketContext from '../context/SocketContext';
  
 export default function MainChat(props) {
@@ -52,6 +52,11 @@ export default function MainChat(props) {
       })
       .then(() => chatRef.current.scrollTop = chatRef.current.scrollHeight);
   }
+
+  //make sure the 'chat' div is scrolled to the bottom with every render
+  useLayoutEffect(() => {
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  })
 
   return (
     <div className='mainContainer mainChat'>
