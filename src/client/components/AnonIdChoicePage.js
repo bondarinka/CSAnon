@@ -49,7 +49,7 @@ export default function AnonIdChoicePage() {
     fetch(rt)
       .then(res => res.json())
       .then(result => {
-        console.log(result);
+        // console.log(result);
         setIsLoading(false);
         setAnonId(result);
       });

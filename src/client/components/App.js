@@ -15,7 +15,7 @@ import UserContext from '../context/UserContext';
 
 const socket = io();
 
-export default function App() {
+export default  function App() {
   //Check if cookie called 'token' exists in browser
   const loggedIn = document.cookie.split(';').some((item) => item.trim().startsWith('token='));
 
