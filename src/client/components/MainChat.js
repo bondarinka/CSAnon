@@ -3,6 +3,8 @@ import SocketContext from '../context/SocketContext';
 
 export default function MainChat(props) {
   const [messageData, setMessageData] = useState([]);
+  const [users, setUsers] = useState(0)
+  const [userlist, setUserList] = useState([])
   const inputMessageRef = useRef(null);
   const chatRef = useRef(null);
   const socket = useContext(SocketContext);
@@ -18,6 +20,15 @@ export default function MainChat(props) {
       socket.emit('message', data);
     }
   };
+
+  socket.on('count', (data) => {
+    setUsers(data)
+  })
+
+  socket.on('userlist', (data) => {
+    setUserList(data)
+  })
+  
 
   socket.on('newMessage', (data) => {
     //{username, userURL, timestamp, message}
@@ -43,6 +54,8 @@ export default function MainChat(props) {
       <div className='sidebar'>
         <p className='displayName'>{props.location.state.username}</p>
         <img src={props.location.state.userURL} />
+        <h1>Users: {users}</h1>
+       {userlist.map((el) => (<div>{el}</div>))}
         {/* TODO: add log out functionalities */}
         {/*<button>Log out of GitHub</button>
         <button>Log out of Anon ID</button>*/}

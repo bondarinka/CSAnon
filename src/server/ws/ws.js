@@ -5,9 +5,15 @@ moment().format();
 
 module.exports = (http) => {
   const io = require('socket.io')(http);
+  
+  let userCount = 0
+  let userList = []
 
   io.on('connect', (socket) => {
     console.log('a user connected');
+
+
+    
 
     socket.on('message', async ({ message, username }) => {
       const { user_id, userURL } = await getIDAndPictureByUsername(username);
@@ -27,6 +33,12 @@ module.exports = (http) => {
     });
 
     socket.on('signin', ({ username }) => {
+      userCount++
+      console.log(userCount)
+      io.emit('count', userCount)
+
+      userList.push(username)
+      io.emit('userlist', userList)
       // assigns the anon username to the socketID
       redis.set(socket.id.toString(), username);
       // claims the anon username as in-use
@@ -34,16 +46,29 @@ module.exports = (http) => {
     });
 
     socket.on('disconnect', () => {
-      console.log('a user disconnected');
-
+      
+     
+    
       // retrieves the username attached to the socketID on disconnect
       redis.get(socket.id.toString(), (err, username) => {
         if (err) return console.error(err);
         console.log(username, 'disconnected');
+        
         if (!username) return;
         //frees the username and socketID from the in-use storage
+        
+
         redis.del(socket.id.toString());
         redis.del(username);
+
+        userCount--
+        io.emit('count', userCount)
+        userList = userList.filter((user) => {
+          console.log(user, username)
+          return user !== username
+        })
+        console.log(userList)
+        io.emit('userlist', userList)
       });
     });
   });
