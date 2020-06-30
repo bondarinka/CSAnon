@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server/server.js",
-    "dev": "concurrently \"nodemon src/server/server.js\" \"webpack-dev-server\"",
+    "dev": "concurrently \"nodemon src/server/server.js\" \"webpack-dev-server --hot\"",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -45,6 +45,7 @@
     "pg": "^8.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hot-loader": "^4.12.21",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "redis": "^3.0.2",
