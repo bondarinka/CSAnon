@@ -1,5 +1,8 @@
 const path = require('path');
 const express = require('express');
+// TEST !
+const cookieSession = require('cookie-session');
+
 const app = express();
 const http = require('http').createServer(app);
 
@@ -23,7 +26,22 @@ const io = require('./ws/ws')(http);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(cookieParser()); // we need to add this line to have a chance to read the req.cookis.
+app.use(cookieParser()); // we need to add this line to have a chance to read the req.cookies.
+
+
+// ***** TEST *****
+// app.set('trust proxy', 1); // trust first proxy
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1'],
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  sameSite: true
+}));
+
+// ********************
+
 
 // handles github OAuth flow
 app.use('/auth', githubRouter);
@@ -37,6 +55,14 @@ app.use('/messages', messagesRouter);
 // serves the index.html file at the root route to allow React Router to
 // handle all routes other than the ones defined above
 app.get('/bundle.js', (req, res) => res.sendFile(path.resolve(__dirname, '../../dist/bundle.js')));
-app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../../dist/index.html')));
+
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../../dist/index.html')));
+}
+
+if (process.env.NODE_ENV === 'development') {
+  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../client/index.html')));
+}
+
 
 http.listen(PORT, () => console.log(`listening on port ${PORT}`));

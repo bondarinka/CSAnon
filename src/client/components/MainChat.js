@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 import SocketContext from '../context/SocketContext';
-
+ 
 export default function MainChat(props) {
   const [messageData, setMessageData] = useState([]);
   const inputMessageRef = useRef(null);
@@ -9,22 +9,27 @@ export default function MainChat(props) {
   const inputSearchRef= useRef(null)
   
   const handleSearch = (e) =>{
-    // e.preventDefault()
-    if(inputSearchRef.current.value !== 0){
+    if(inputSearchRef.current.value.length !== 0){
       const matchedMessages = [];
-      console.log(e.target.value)
-        messageData.forEach((element) => {
-          if(element.message.search(e.target.value)!==-1){
-            matchedMessages.push(element)
-          }
-          // console.log(matchedMessages)
-        })
-      }
+      socket.disconnect(true)
+      messageData.forEach((element) => {
+        const lowerCasedMassage= element.message.toLowerCase()
+        if(lowerCasedMassage.search(inputSearchRef.current.value)!==-1){
+          matchedMessages.push(element)
+        }
+      })
+      setMessageData(matchedMessages)
+    }
+    else{
+      getData()
+      socket.disconnect(false)
+    }
+    e.preventDefault()
   }
 
   const handleSendClick = (e) => {
-    e.preventDefault();
-    if (inputMessageRef.current.value.length !== 0) {
+    if (inputMessageRef.current.value.length > 1) {
+      e.preventDefault();
       const data = {
         message: inputMessageRef.current.value,
         username: props.location.state.username,
@@ -44,13 +49,16 @@ export default function MainChat(props) {
 
   //TODO: add function for request more messages on scroll up
   //TODO: not scrolling to bottom on initial load
-  if (messageData.length === 0) {
+  const getData = () => {
     fetch('/messages/all')
       .then((res) => res.json())
       .then((res) => {
         setMessageData(res);
       })
       .then(() => chatRef.current.scrollTop = chatRef.current.scrollHeight);
+  }
+  if (messageData.length === 0) {
+    getData()
   }
   
   return (
@@ -62,16 +70,16 @@ export default function MainChat(props) {
     {/*<button>Log out of GitHub</button>
     <button>Log out of Anon ID</button>*/}
     </div>
-    <form onClick={handleSearch}>
+    <div onChange={handleSearch}>
         <input type='text' ref={inputSearchRef} placeholder='Search messages'></input>
         <span>|</span>
-        <button type='search' >Search</button>
-    </form>
+        <button type='search'  >Search</button>
+    </div>
       <div className='chatContainer'>
       <div className='chat' ref={chatRef}>
       {/* assumes most recent message is at the end of the array */}
       {messageData.map((message) => (
-        <Message key={JSON.stringify(message)}
+        <Message key={JSON.stringify(message)+ Math.random()}
         yourName={props.location.state.username}
         {...message} />
         ))}
@@ -95,7 +103,6 @@ function Message(props) {
         <span>{props.username}</span>
         <p>{props.message}</p>
       </div>
-
     </div>
   );
 }
