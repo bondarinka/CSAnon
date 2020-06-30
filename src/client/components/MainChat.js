@@ -9,6 +9,7 @@ export default function MainChat(props) {
   const chatRef = useRef(null);
   const socket = useContext(SocketContext);
   const inputSearchRef= useRef(null)
+
   const handleSearch = (e) =>{
     if(inputSearchRef.current.value.length !== 0){
       const matchedMessages = [];
@@ -87,8 +88,6 @@ export default function MainChat(props) {
     </div>
     <div onChange={handleSearch}>
         <input type='text' ref={inputSearchRef} placeholder='Search messages'></input>
-        <span>|</span>
-        <button type='search'  >Search</button>
     </div>
     <div className='chatContainer'>
       <div className='chat' ref={chatRef}>
