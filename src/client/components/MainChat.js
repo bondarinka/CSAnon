@@ -6,6 +6,21 @@ export default function MainChat(props) {
   const inputMessageRef = useRef(null);
   const chatRef = useRef(null);
   const socket = useContext(SocketContext);
+  const inputSearchRef= useRef(null)
+  
+  const handleSearch = (e) =>{
+    // e.preventDefault()
+    if(inputSearchRef.current.value !== 0){
+      const matchedMessages = [];
+      console.log(e.target.value)
+        messageData.forEach((element) => {
+          if(element.message.search(e.target.value)!==-1){
+            matchedMessages.push(element)
+          }
+          // console.log(matchedMessages)
+        })
+      }
+  }
 
   const handleSendClick = (e) => {
     e.preventDefault();
@@ -37,29 +52,34 @@ export default function MainChat(props) {
       })
       .then(() => chatRef.current.scrollTop = chatRef.current.scrollHeight);
   }
-
+  
   return (
     <div className='mainContainer mainChat'>
-      <div className='sidebar'>
-        <p className='displayName'>{props.location.state.username}</p>
-        <img src={props.location.state.userURL} />
-        {/* TODO: add log out functionalities */}
-        {/*<button>Log out of GitHub</button>
-        <button>Log out of Anon ID</button>*/}
-      </div>
+    <div className='sidebar'>
+    <p className='displayName'>{props.location.state.username}</p>
+    <img src={props.location.state.userURL} />
+    {/* TODO: add log out functionalities */}
+    {/*<button>Log out of GitHub</button>
+    <button>Log out of Anon ID</button>*/}
+    </div>
+    <form onClick={handleSearch}>
+        <input type='text' ref={inputSearchRef} placeholder='Search messages'></input>
+        <span>|</span>
+        <button type='search' >Search</button>
+    </form>
       <div className='chatContainer'>
-        <div className='chat' ref={chatRef}>
-          {/* assumes most recent message is at the end of the array */}
-          {messageData.map((message) => (
-            <Message key={JSON.stringify(message)}
-              yourName={props.location.state.username}
-              {...message} />
-          ))}
+      <div className='chat' ref={chatRef}>
+      {/* assumes most recent message is at the end of the array */}
+      {messageData.map((message) => (
+        <Message key={JSON.stringify(message)}
+        yourName={props.location.state.username}
+        {...message} />
+        ))}
         </div>
         <form className='inputArea' onClick={handleSendClick}>
-          <input type='text' ref={inputMessageRef} placeholder='Send message'></input>
-          <span>|</span>
-          <button type='submit'>Send</button>
+        <input type='text' ref={inputMessageRef} placeholder='Send message'></input>
+        <span>|</span>
+        <button type='submit'>Send</button>
         </form>
       </div>
     </div>

@@ -49,13 +49,13 @@ githubController.callback = (req, res, next) => {
 
 githubController.approveUser = async (req, res, next) => {
   const githubHandle = res.locals.login;
-  //checkMembership(githubHandle, res.locals.access_token)
-  //  .then(res => console.log('approveUser res body', res.body))
-  //  .catch((err) => {
-  //    console.log(err.status);
-  //    console.log(err.message);
-  //    return next(err);
-  //  })
+  checkMembership(githubHandle, res.locals.access_token)
+   .then(res => console.log('approveUser res body', res.body))
+   .catch((err) => {
+     console.log(err.status);
+     console.log(err.message);
+     return next(err);
+   })
 
   // get all rows of the hash table
   // const queryString = `SELECT bcrypt_hash FROM hash_table`;
