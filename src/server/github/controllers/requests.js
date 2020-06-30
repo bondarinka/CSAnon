@@ -12,13 +12,8 @@ const requestToken = (code) => {
       client_secret: CLIENT_SECRET,
       code,
     })
-<<<<<<< HEAD
     .set("Accept", "application/json");
 };
-=======
-    .set('Accept', 'application/json');
-}; 
->>>>>>> 22ba40befaca85f47d367994a6b26087531918c9
 
 const requestUser = (result, response) => {
   const { access_token, scope } = result.body;
@@ -41,14 +36,7 @@ const checkMembership = (githubHandle, access_token) => {
   //   /user/memberships/orgs?state=active
   // /user GET request returns response correctly
   // const route = `/user/orgs`;
-<<<<<<< HEAD
-  // example => https://api.github.com/orgs/codesmithllc/members/bondarinka
-  //   Returns only 2 users !!!
-  // https://api.github.com/orgs/codesmithllc/members
-  const route = `/orgs/${org}/members`;
-=======
   const route = `/orgs/${org}/members/${githubHandle}`;
->>>>>>> 22ba40befaca85f47d367994a6b26087531918c9
   console.log(baseURL + route);
   return (
     request
