@@ -34,7 +34,6 @@ const checkMembership = (githubHandle, access_token) => {
   const baseURL = "https://api.github.com";
   const org = "CodesmithLLC";
   const route = `/orgs/${org}/members/${githubHandle}`;
-  console.log(baseURL + route);
   return (
     request
       .get(baseURL + route)

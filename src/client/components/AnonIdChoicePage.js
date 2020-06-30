@@ -39,7 +39,7 @@ export default function AnonIdChoicePage() {
     fetch(rt)
       .then(res => res.json())
       .then(result => {
-        console.log(result);
+        // console.log(result);
         setIsLoading(false);
         setAnonId(result);
       });
@@ -84,7 +84,7 @@ userID = {
   username: String,
   userURL: String,
 }
- 
+
 **keep username in session storage**
 
 on go to chat, submit username to '/id/pick/' (will register in redis)
