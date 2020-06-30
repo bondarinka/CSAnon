@@ -3,29 +3,8 @@ import SocketContext from '../context/SocketContext';
  
 export default function MainChat(props) {
   const [messageData, setMessageData] = useState([]);
-  const inputMessageRef = useRef(null);
   const chatRef = useRef(null);
   const socket = useContext(SocketContext);
-  const inputSearchRef= useRef(null)
-  
-  const handleSearch = (e) =>{
-    if(inputSearchRef.current.value.length !== 0){
-      const matchedMessages = [];
-      socket.disconnect(true)
-      messageData.forEach((element) => {
-        const lowerCasedMassage= element.message.toLowerCase()
-        if(lowerCasedMassage.search(inputSearchRef.current.value)!==-1){
-          matchedMessages.push(element)
-        }
-      })
-      setMessageData(matchedMessages)
-    }
-    else{
-      getData()
-      socket.disconnect(false)
-    }
-    e.preventDefault()
-  }
 
   const handleSendClick = (e) => {
     if (inputMessageRef.current.value.length > 1) {
@@ -69,11 +48,6 @@ export default function MainChat(props) {
     {/* TODO: add log out functionalities */}
     {/*<button>Log out of GitHub</button>
     <button>Log out of Anon ID</button>*/}
-    </div>
-    <div onChange={handleSearch}>
-        <input type='text' ref={inputSearchRef} placeholder='Search messages'></input>
-        <span>|</span>
-        <button type='search'  >Search</button>
     </div>
       <div className='chatContainer'>
       <div className='chat' ref={chatRef}>
