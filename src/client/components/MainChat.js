@@ -28,6 +28,10 @@ export default function MainChat(props) {
   socket.on('userlist', (data) => {
     setUserList(data)
   })
+
+  socket.on('data',(data) => {
+    console.log(data)
+  })
   
 
   socket.on('newMessage', (data) => {
@@ -54,7 +58,7 @@ export default function MainChat(props) {
       <div className='sidebar'>
         <p className='displayName'>{props.location.state.username}</p>
         <img src={props.location.state.userURL} />
-        <h1>Userssss: {users}</h1>
+        <h1>Users: {users}</h1>
        {userlist.map((el) => (<div>{el}</div>))}
         {/* TODO: add log out functionalities */}
         {/*<button>Log out of GitHub</button>

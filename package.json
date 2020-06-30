@@ -5,11 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server/server.js",
-<<<<<<< HEAD
-    "dev": "concurrently \"nodemon src/server/server.js\" \"webpack-dev-server --hot\"",
-=======
     "dev": "concurrently \"nodemon src/server/server.js\" \"webpack-dev-server --open\"",
->>>>>>> 22ba40befaca85f47d367994a6b26087531918c9
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
