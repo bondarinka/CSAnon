@@ -43,6 +43,10 @@ module.exports = (http) => {
       redis.set(socket.id.toString(), username);
       // claims the anon username as in-use
       redis.set(username, 'true');
+
+      redis.get(socket.id.toString(), (err, data) => {
+        console.log(data)
+      })
     });
 
     socket.on('disconnect', () => {
