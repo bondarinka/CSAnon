@@ -1,5 +1,7 @@
 const path = require('path');
 
+console.log('webpack mode:', process.env.NODE_ENV);
+
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: './src/client/index.js',
@@ -31,5 +33,6 @@ module.exports = {
     proxy: {
       '/': 'http://localhost:3000',
     },
+    hot: true,
   },
 };
