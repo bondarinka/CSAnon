@@ -50,11 +50,11 @@ githubController.callback = (req, res, next) => {
 githubController.approveUser = async (req, res, next) => {
   const githubHandle = res.locals.login;
   checkMembership(githubHandle, res.locals.access_token)
-    .then((res) => {
+    .then((response) => {
       // should give 204 status in response
       // if yes - good to go, allowed to access chat (member of the organization)
-      console.log(res.status);
-      if (res.status === 204) {
+      console.log(response.status);
+      if (response.status === 204) {
         res.locals.user = githubHandle;
         return next();
       }
@@ -102,6 +102,7 @@ githubController.createJWT = async (req, res, next) => {
 githubController.setCookie = (req, res, next) => {
   const token = res.locals.token;
   res.cookie("token", token);
+  console.log('set cookie is running')
   next();
 };
 
