@@ -61,7 +61,7 @@ export default function AnonIdChoicePage() {
           <img src={anonId.userURL} onError={handleRerollClick} />
           <p className="name">{anonId.username}</p>
           <div className="row">
-            <button onClick={handleRerollClick}>Rerolllllll new ID</button>
+            <button onClick={handleRerollClick}>Reroll new ID</button>
             <Link
               className="btn"
               to={{ pathname: "/chat", state: anonId }}
@@ -71,7 +71,7 @@ export default function AnonIdChoicePage() {
             </Link>
           </div>
         </>
-      )}
+      )} 
     </div>
   );
 }

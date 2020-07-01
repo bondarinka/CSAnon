@@ -72,14 +72,16 @@ idsController.getNewID = async (req, res, next) => {
   } else {
     userID = pickRandomPokemonNumber();
     while (userIDIsTaken(userID)) {
-      const userID = pickRandomPokemonNumber();
+      var userID = pickRandomPokemonNumber();
     }
     userObject = await getNameAndPicture(userID);
-  }
-  if (!saved) {
     const { username } = userObject;
-    res.cookie("username", username);
+    res.cookie("username", username, { httpOnly:true, secure:true });
   }
+  // if (!saved) {
+  //   // make username cookie secure
+  //   // res.cookie("username", username);
+  // }
   userObject = { username: saved, userURL: pic};
   console.log(userObject);
   res.locals.availableID = userObject;

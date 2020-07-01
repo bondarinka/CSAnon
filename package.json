@@ -4,9 +4,9 @@
   "description": "An anonymous board to ask for help, coding or otherwise.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/server/server.js",
-    "dev": "concurrently \"nodemon src/server/server.js\" \"webpack-dev-server --open\"",
-    "build": "webpack",
+    "start": "cross-env NODE_ENV=production nodemon src/server/server.js",
+    "dev": "cross-env NODE_ENV=development concurrently \"nodemon src/server/server.js\" \"webpack-dev-server --open\"",
+    "build": "cross-env NODE_ENV=production webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
