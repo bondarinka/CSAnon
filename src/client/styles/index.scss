@@ -69,6 +69,7 @@ body {
     box-sizing: border-box;
 
     .chat {
+      flex: 0 1 100%;
       overflow-y: auto;
       padding: 0.5rem;
       box-sizing: border-box;
@@ -117,7 +118,7 @@ body {
       }
     }
 
-    .inputArea {
+    .form, form {
       display: flex;
       flex-direction: row;
       width: calc(100% - 1rem);
@@ -148,10 +149,5 @@ body {
         padding: 0 10px;
       }
     }
-
-    
-
-    
   }
-  
 }

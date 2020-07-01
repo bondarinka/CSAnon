@@ -7,7 +7,7 @@ const idsController = require('./controllers/id');
 //   res.status(200).json(res.locals.availableID);
 // });
 
-idsRouter.get('/',  idsController.getNewID, (req, res) => {
+idsRouter.get('/:handleImageErr',  idsController.getNewID, (req, res) => {
   res.status(200).json(res.locals.availableID);
 });
 

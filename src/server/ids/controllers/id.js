@@ -50,7 +50,7 @@ const matchUsernameToID = async (username) => {
   const response = await db.query(queryString);
   if (response.rows.length) {
     const { userID } = response.rows[0];
-    return userID; 
+    return userID;
   } else {
     console.error("user id not found when searched by name");
   }
@@ -60,12 +60,28 @@ idsController.getNewID = async (req, res, next) => {
   // console.log('Req.session: ', req.session);
   let userObject;
   let pic;
+  let handleImageError = Boolean(req.params.handleImageError);
   // const saved = req.session.cookies.username;
   const saved = req.session._ctx.cookies.username;
   // const saved = req.session._ctx.IncomingMessage.cookies.username;
   console.log("Username cookie was saved ", saved);
   // console.log('Token in cookies ', req.session.cookies.token);
   console.log("Token in cookies ", req.session._ctx.cookies.token);
+  //if (!saved) { //if no username cookie is saved
+  //  let randomUserID = pickRandomPokemonNumber();
+  //  while (userIDIsTaken(randomUserID)) {
+  //    randomUserID = pickRandomPokemonNumber();
+  //  }
+  //  userObject = await getNameAndPicture(randomUserID);
+    
+  //} 
+  //else { //if the client has a username cookie
+  //  pic = await getPic(saved);
+  //}
+  //res.locals.availableID = userObject;
+  //if (!handleImageError) res.cookie('username', username); //only set username cookie if
+  //  console.log('Cookie is set ', username);
+  //return next();
   if (saved) {
     // userID = matchUsernameToID(req.session._ctx.cookies.username);
     pic = await getPic(saved);

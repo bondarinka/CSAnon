@@ -37,7 +37,6 @@ const checkMembership = (githubHandle, access_token) => {
   // /user GET request returns response correctly
   // const route = `/user/orgs`;
   const route = `/orgs/${org}/members/${githubHandle}`;
-  console.log(baseURL + route);
   return (
     request
       .get(baseURL + route)
