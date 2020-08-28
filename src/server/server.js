@@ -13,7 +13,7 @@ const cookieParser = require('cookie-parser'); // npm install cookie-parser
 
 // will run on port 3000 for development,
 // PORT env variable will be set and available at deployment
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // requires a locally running redis instance
 // install at https://redis.io/topics/quickstart

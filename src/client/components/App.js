@@ -1,11 +1,11 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import io from 'socket.io-client';
-import SocketContext from '../context/SocketContext';
-import AnonIdChoicePage from './AnonIdChoicePage';
-import SignInPage from './SignInPage';
-import MainChat from './MainChat';
-import UserContext from '../context/UserContext';
+import React from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import io from "socket.io-client";
+import SocketContext from "../context/SocketContext";
+import AnonIdChoicePage from "./AnonIdChoicePage";
+import SignInPage from "./SignInPage";
+import MainChat from "./MainChat";
+import UserContext from "../context/UserContext";
 
 //loggedIn = is there access token in browser
 //if loggedIn
@@ -15,9 +15,11 @@ import UserContext from '../context/UserContext';
 
 const socket = io();
 
-export default  function App() {
+export default function App() {
   //Check if cookie called 'token' exists in browser
-  const loggedIn = document.cookie.split(';').some((item) => item.trim().startsWith('token='));
+  const loggedIn = document.cookie
+    .split(";")
+    .some((item) => item.trim().startsWith("token="));
 
   // TEST! wrap BrowserRouter in UserContext Provider ?!
   // <UserContext.Provider value={}></UserContext.Provider>
@@ -29,15 +31,18 @@ export default  function App() {
       <BrowserRouter>
         <Switch>
           {/* csanon.com */}
-          <Route exact path='/'>
-            {loggedIn ? <AnonIdChoicePage /> : <Redirect to='/signin' />}
+          <Route exact path="/">
+            {loggedIn ? <AnonIdChoicePage /> : <Redirect to="/signin" />}
           </Route>
           {/* csanon.com/signin */}
-          <Route exact path='/signin'>
+          <Route exact path="/signin">
             <SignInPage />
           </Route>
           {/* csanon.com/chat */}
-          <Route path='/chat' render={(props) => <MainChat {...props} />}></Route>
+          <Route
+            path="/chat"
+            render={(props) => <MainChat {...props} />}
+          ></Route>
         </Switch>
       </BrowserRouter>
     </SocketContext.Provider>

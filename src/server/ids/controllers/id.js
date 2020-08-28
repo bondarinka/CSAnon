@@ -73,8 +73,8 @@ idsController.getNewID = async (req, res, next) => {
   //    randomUserID = pickRandomPokemonNumber();
   //  }
   //  userObject = await getNameAndPicture(randomUserID);
-    
-  //} 
+
+  //}
   //else { //if the client has a username cookie
   //  pic = await getPic(saved);
   //}
@@ -92,13 +92,13 @@ idsController.getNewID = async (req, res, next) => {
     }
     userObject = await getNameAndPicture(userID);
     const { username } = userObject;
-    res.cookie("username", username, { httpOnly:true, secure:true });
+    res.cookie("username", username, { httpOnly: true, secure: true });
   }
   // if (!saved) {
   //   // make username cookie secure
   //   // res.cookie("username", username);
   // }
-  userObject = { username: saved, userURL: pic};
+  userObject = { username: saved, userURL: pic };
   console.log(userObject);
   res.locals.availableID = userObject;
   return next();
